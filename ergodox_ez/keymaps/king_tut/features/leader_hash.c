@@ -9,31 +9,34 @@
 //  using the combined key as the start of the sequence
 
 // Leader hash stuff
-bool     leader_hashing                = false;
-uint16_t leader_hashing_time           = 0;
+uint16_t leader_hash_key             = KC_NO;
+bool     leader_hashing         = false;
+uint16_t leader_hashing_time    = 0;
 uint32_t leader_hash            = 0;
 uint8_t  leader_hash_index      = 0;
 
 // callbacks
 __attribute__((weak)) void leader_hash_start_user(void) {}
-__attribute__((weak)) void leader_hash_end_user(void) {}
+__attribute__((weak)) void leader_hash_end_user(uint16_t leader_key) {}
 
-void leader_hash_start(void) {
+void leader_hash_start(uint16_t leader_key) {
     uprint("Leader Hash start\n");
     if (leader_hashing) {
         return;
     }
     leader_hash_start_user();
-    leader_hashing              = true;
-    leader_hashing_time         = timer_read();
-    leader_hash_index    = 0;
-    leader_hash          = 0;
+    leader_hash_key         = leader_key;
+    leader_hashing          = true;
+    leader_hashing_time     = timer_read();
+    leader_hash_index       = 0;
+    leader_hash             = 0;
 }
 
-void leader_hash_end(void) {
+void leader_hash_end() {
     leader_hashing = false;
     uprintf("Final Hash: %u\n", leader_hash);
-    leader_hash_end_user();
+    leader_hash_end_user(leader_hash_key);
+    leader_hash_key = KC_NO;
 }
 
 bool leader_hash_active(void) {

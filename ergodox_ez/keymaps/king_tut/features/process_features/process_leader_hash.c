@@ -21,8 +21,8 @@ bool process_leader_hash(uint16_t keycode, keyrecord_t *record) {
 #endif
 
             return false;
-        } else if (keycode == FT_LEADER_HASH) {
-            leader_hash_start();
+        } else if ((keycode >= FT_LEADER_HASH_1) && (keycode <= FT_LEADER_HASH_3) ) {
+            leader_hash_start(keycode);
         }
     }
 

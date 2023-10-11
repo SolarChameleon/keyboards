@@ -3,6 +3,7 @@
 
 #include "quantum.h"
 #include "../aliases.h"
+#include "../features/feature_keycodes.h"
 
 typedef struct {
     uint16_t keycode;

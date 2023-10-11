@@ -9,9 +9,9 @@
 #include "quantum.h"
 
 void leader_hash_start_user(void);
-void leader_hash_end_user(void);
+void leader_hash_end_user(uint16_t leader_key);
 
-void leader_hash_start(void);
+void leader_hash_start(uint16_t leader_key);
 bool leader_hash_active(void);
 bool leader_hash_timed_out(void);
 void leader_hash_reset_timer(void);

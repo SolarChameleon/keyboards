@@ -6,8 +6,12 @@
 // -----------------------------------------------------
 // HOTKEYS
 // -----------------------------------------------------
-COMB(CMB_LHASH_L,        LHASH,              LS_, CU_)
-COMB(CMB_LHASH_R,        LHASH,              NV_SPC, H_)
+COMB(CMB_LHASH_1L,        LHASH1,            LS_, CU_)
+COMB(CMB_LHASH_1R,        LHASH1,            NV_SPC, H_)
+COMB(CMB_LHASH_2L,        LHASH2,            LS_, GE_)
+COMB(CMB_LHASH_2R,        LHASH2,            NV_SPC, T_)
+COMB(CMB_LHASH_3L,        LHASH3,            LS_, AO_)
+COMB(CMB_LHASH_3R,        LHASH3,            NV_SPC, N_)
 COMB(CMB_AHASH_R,        AHASH,              NUMBR, H_)
 COMB(CMB_SWAP_L,         SH_OS,              LS_, A_)
 COMB(CMB_SWAP_R,         SH_OS,              NV_SPC, S_)
