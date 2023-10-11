@@ -20,7 +20,7 @@ bool incr_action(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         incr_is_held = true;
         number_key_pressed = false;
-        uprint("incr_action: Key pressed");
+        uprint("incr_action: Key pressed\n");
     } else {
         incr_is_held = false;
         if (!number_key_pressed) {

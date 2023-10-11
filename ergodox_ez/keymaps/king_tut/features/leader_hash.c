@@ -9,8 +9,8 @@
 //  using the combined key as the start of the sequence
 
 // Leader hash stuff
-bool     hashing                = false;
-uint16_t hashing_time           = 0;
+bool     leader_hashing                = false;
+uint16_t leader_hashing_time           = 0;
 uint32_t leader_hash            = 0;
 uint8_t  leader_hash_index      = 0;
 
@@ -19,25 +19,25 @@ __attribute__((weak)) void leader_hash_start_user(void) {}
 __attribute__((weak)) void leader_hash_end_user(void) {}
 
 void leader_hash_start(void) {
-    uprint("Hash start\n");
-    if (hashing) {
+    uprint("Leader Hash start\n");
+    if (leader_hashing) {
         return;
     }
     leader_hash_start_user();
-    hashing              = true;
-    hashing_time         = timer_read();
+    leader_hashing              = true;
+    leader_hashing_time         = timer_read();
     leader_hash_index    = 0;
     leader_hash          = 0;
 }
 
 void leader_hash_end(void) {
-    hashing = false;
+    leader_hashing = false;
     uprintf("Final Hash: %u\n", leader_hash);
     leader_hash_end_user();
 }
 
 bool leader_hash_active(void) {
-    return hashing;
+    return leader_hashing;
 }
 
 void leader_hash_task(void) {
@@ -46,14 +46,13 @@ void leader_hash_task(void) {
     }
 }
 
-uint32_t hashing_function(uint16_t keycode, uint8_t index, uint32_t hash) {
-    // Combine the keycode and index into the hash
+uint32_t leader_hashing_function(uint16_t keycode, uint8_t index, uint32_t hash) {
     hash = ((hash << 5) | (hash >> 27)) ^ keycode;
     return hash;
 }
 
 void leader_hash_reset_timer(void) {
-    hashing_time = timer_read();
+    leader_hashing_time = timer_read();
 }
 
 bool leader_hash_add(uint16_t keycode) {
@@ -65,7 +64,7 @@ bool leader_hash_add(uint16_t keycode) {
 #endif
 
     // Add the keycode and index to the hash
-    leader_hash = hashing_function(keycode, leader_hash_index, leader_hash);
+    leader_hash = leader_hashing_function(keycode, leader_hash_index, leader_hash);
     leader_hash_index++;
 
     return true;
@@ -73,9 +72,9 @@ bool leader_hash_add(uint16_t keycode) {
 
 bool leader_hash_timed_out(void) {
 #if defined(LEADER_HASH_NO_TIMEOUT)
-    return leader_hash_index > 0 && timer_elapsed(hashing_time) > HASHING_TIMEOUT;
+    return leader_hash_index > 0 && timer_elapsed(leader_hashing_time) > HASHING_TIMEOUT;
 #else
-    return timer_elapsed(hashing_time) > HASHING_TIMEOUT;
+    return timer_elapsed(leader_hashing_time) > HASHING_TIMEOUT;
 #endif
 }
 
@@ -85,19 +84,16 @@ uint32_t generate_hash(uint16_t keycodes[], uint8_t size) {
 
     for (uint8_t i = 0; i < size; i++) {
         // Call the hashing function for each keycode in the array
-        hash = hashing_function(keycodes[i], i, hash);
+        hash = leader_hashing_function(keycodes[i], i, hash);
     }
 
     return hash;
 }
 
 bool leader_hash_is(uint16_t keycodes[], uint8_t size) {
-
     if (leader_hash_index != size) {
-        uprintf("Size comparison failed: leader_hash_index = %d, size = %d\n", leader_hash_index, size);
         return false;
     }
     uint32_t hash = generate_hash(keycodes, size);
-        uprintf("Calculated hash: %u\n", hash);
     return leader_hash == hash;
 }

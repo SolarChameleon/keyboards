@@ -3,8 +3,8 @@
 
 #include "../leader_hash.h"
 #include "../feature_keycodes.h"
-#include "quantum.h"
 #include "stdbool.h"
+#include "quantum.h"
 
 bool process_leader_hash(uint16_t keycode, keyrecord_t *record);
 

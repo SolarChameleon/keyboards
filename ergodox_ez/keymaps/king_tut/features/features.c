@@ -1,7 +1,15 @@
 #include "features.h"
 
+#ifdef MOD_KEYS_ENABLE
+#    include "process_features/process_mod_keys.h"
+#endif
+
 #ifdef LEADER_HASH_ENABLE
 #    include "process_features/process_leader_hash.h"
+#endif
+
+#ifdef ALPHANUMERIC_HASH_ENABLE
+#    include "process_features/process_alphanumeric_hash.h"
 #endif
 
 #ifdef SCAN_MOD_ENABLE
@@ -19,8 +27,14 @@
 bool process_record_features(keyrecord_t *record) {
     uint16_t keycode = get_record_keycode(record, true);
     if (!(
+#ifdef MOD_KEYS_ENABLE
+    process_mod_keys(keycode, record) &&
+#endif
 #ifdef LEADER_HASH_ENABLE
     process_leader_hash(keycode, record) &&
+#endif
+#ifdef ALPHANUMERIC_HASH_ENABLE
+    process_alphanumeric_hash(keycode, record) &&
 #endif
 #ifdef SCAN_MOD_ENABLE
     process_scan_mod(keycode, record) &&
@@ -46,5 +60,8 @@ bool process_record_features(keyrecord_t *record) {
 void feature_task(void) {
 #ifdef LEADER_HASH_ENABLE
     leader_hash_task();
+#endif
+#ifdef ALPHANUMERIC_HASH_ENABLE
+    alphanumeric_hash_task();
 #endif
 }

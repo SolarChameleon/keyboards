@@ -1,8 +1,6 @@
 #include "process_counter_keys.h"
 
 bool process_counter_keys(uint16_t keycode, keyrecord_t *record) {
-    uprintf("process_counter_key: keycode = %u, pressed = %s\n", keycode, record->event.pressed ? "true" : "false");
-
     switch (keycode) {
         case COUNTER_INCR:
             return incr_action(keycode, record);

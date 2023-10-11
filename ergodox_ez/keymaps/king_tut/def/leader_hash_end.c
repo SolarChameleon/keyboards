@@ -13,12 +13,26 @@ LeaderSequence leader_sequences[] = {
 };
 
 const char* current_label;
+void result_generic(void);
+
+void leader_hash_end_user(void) {
+    uprint("Hash end\n");
+    for (size_t i = 0; i < sizeof(leader_sequences) / sizeof(leader_sequences[0]); i++) {
+        current_label = leader_sequences[i].result_label;
+        if (leader_hash_is(leader_sequences[i].sequence, leader_sequences[i].size)) {
+            result_generic();
+        }
+    }
+}
 
 // Result function to handle different actions
 void result_generic(void) {
     uprintf("Current Label: %s\n", current_label);
     if (strcmp(current_label, "send_name") == 0) {
         SEND_STRING("Alexander von Stuelpnagel");
+    }
+    if (strcmp(current_label, "send_email") == 0) {
+        SEND_STRING("a.solar.lizard@gmail.com");
     }
     if (strcmp(current_label, "click") == 0) {
         tap_code16(KC_BTN1);
@@ -34,17 +48,8 @@ void result_generic(void) {
     if (strcmp(current_label, "paste") == 0) {
         tap_code16(RCTL(V_));
     }
-    if (strcmp(current_label, "paste") == 0) {
-        soft_reset_keyboard();
+    if (strcmp(current_label, "reboot") == 0) {
+        reset_keyboard();
     }
 }
 
-void leader_hash_end_user(void) {
-    uprint("Hash end\n");
-    for (size_t i = 0; i < sizeof(leader_sequences) / sizeof(leader_sequences[0]); i++) {
-        current_label = leader_sequences[i].result_label;
-        if (leader_hash_is(leader_sequences[i].sequence, leader_sequences[i].size)) {
-            result_generic();
-        }
-    }
-}

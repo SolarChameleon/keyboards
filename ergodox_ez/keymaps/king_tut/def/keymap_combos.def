@@ -8,6 +8,7 @@
 // -----------------------------------------------------
 COMB(CMB_LHASH_L,        LHASH,              LS_, CU_)
 COMB(CMB_LHASH_R,        LHASH,              NV_SPC, H_)
+COMB(CMB_AHASH_R,        AHASH,              NUMBR, H_)
 COMB(CMB_SWAP_L,         SH_OS,              LS_, A_)
 COMB(CMB_SWAP_R,         SH_OS,              NV_SPC, S_)
 

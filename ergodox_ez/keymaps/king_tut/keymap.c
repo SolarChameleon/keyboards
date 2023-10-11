@@ -25,7 +25,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _F13, _F14, _F15, _F16, _F17,                            _F18, _F19, _F20, _F21, _F22,
                                    ___, ___,     ___,   ___,
                                         ___,     ___,
-                            MDRAW, LS_, ___,     ___, NV_SPC, NUMBR
+                            MDRAW, LS_, AHASH,   AHASH, NV_SPC, NUMBR
   ),
   [1] = LAYOUT_ergodox_pretty(
     ___, ___, ___, ___, ___, ___, ___,          ___, ___, ___,  ___,  ___,  ___,  ___,
